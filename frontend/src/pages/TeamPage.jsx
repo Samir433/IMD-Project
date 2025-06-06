@@ -1,6 +1,6 @@
 import React from 'react';
 
- const Team = () => {
+const Team = () => {
   const teamMembers = [
     {
       name: 'Dr. Parul Trivedi',
@@ -11,36 +11,36 @@ import React from 'react';
     },
     {
       name: 'Dr. Uday Patkar',
-      role: 'Internal Guide (H.O.D Computer Engineering Department)',
-      description: 'Provided guidance and regular feedback throughout the project.',
+      role: 'Internal Guide (H.O.D Computer Engineering)',
+      description: 'Provided guidance and regular feedback throughout the project development.',
       imageUrl: "up.jpg",
       isMentor: true,
     },
     {
       name: 'Vedant Laxman Kulkarni',
-      role: 'Backend Development and Deployment',
-      description: 'Responsible for the core application development and integration of ML prediction models.',
+      role: 'Backend Development & Deployment',
+      description: 'Core application development and ML prediction model integration.',
       imageUrl: "vedddddddddddd.jpg",
       isMentor: false,
     },
     {
       name: 'Samir Bharat Atpadkar',
-      role: 'ML Model Development and Correlation',
-      description: 'Contributed in building ML model.',
+      role: 'ML Model Development',
+      description: 'Machine learning model development and correlation analysis.',
       imageUrl: "sa.jpg",
       isMentor: false,
     },
     {
       name: 'Hrishikesh Dagdu Bhavar',
-      role: 'UI/UX Design & Documentation Contributor',
-      description: 'Focused on the user interface and contributed in documentation.',
+      role: 'UI/UX Design & Documentation',
+      description: 'User interface design and project documentation.',
       imageUrl: "h.jpg",
       isMentor: false,
     },
     {
       name: 'Sanskar Prabhakar Malkhede',
-      role: 'Research & Data Analysis Contributor',
-      description: 'Contributed significantly to data acquisition, analysis, and research methodologies supporting the AI model.',
+      role: 'Research & Data Analysis',
+      description: 'Data acquisition, analysis, and research methodologies.',
       imageUrl: "s.jpg",
       isMentor: false,
     },
@@ -50,45 +50,47 @@ import React from 'react';
   const coreTeam = teamMembers.filter(member => !member.isMentor);
 
   const MemberCard = ({ member }) => (
-    <div className="bg-white border border-blue-100 rounded-xl shadow-md p-6 flex flex-col items-center text-center transition-transform transform hover:shadow-lg duration-300 ease-in-out h-full">
+    <div className="bg-white border border-gray-200 rounded-xl shadow-md p-6 text-center hover:shadow-lg transition-all duration-300 h-full">
       <img
         src={member.imageUrl}
         alt={member.name}
-        className="w-24 h-24 rounded-full object-cover mb-4 ring-2 ring-blue-400 ring-offset-2"
-        onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/100x100?text=IMG" }}
+        className="w-20 h-20 rounded-full object-cover mx-auto mb-4 ring-2 ring-blue-200"
+        onError={(e) => { 
+          e.target.onerror = null; 
+          e.target.src = "https://placehold.co/100x100/E5E7EB/6B7280?text=" + member.name.split(' ').map(n => n[0]).join('');
+        }}
       />
-      <h3 className="text-xl font-bold text-blue-800">{member.name}</h3>
-      <p className="text-sm text-gray-600 font-medium mt-1">{member.role}</p>
-      <p className="text-sm text-gray-500 mt-2">{member.description}</p>
+      <h3 className="text-lg font-semibold text-gray-800 mb-1">{member.name}</h3>
+      <p className="text-sm text-blue-600 font-medium mb-3">{member.role}</p>
+      <p className="text-sm text-gray-600 leading-relaxed">{member.description}</p>
     </div>
   );
 
   return (
-    <div className="p-6 md:p-10">
-      <h2 className="text-3xl font-bold text-center text-blue-800 mb-8">Meet the Team</h2>
+         <div className="p-6 md:p-10">
+       <h2 className="text-3xl font-bold text-center text-blue-800 mb-8">Meet the Team</h2>
 
-      {/* Mentors */}
-      <div>
-        <h3 className="text-2xl font-semibold text-blue-700 mb-4">Mentors</h3>
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
-          {mentors.map(member => (
-            <MemberCard key={member.name} member={member} />
-          ))}
-        </div>
-      </div>
+             {/* Mentors Section */}
+       <div>
+         <h3 className="text-2xl font-semibold text-blue-700 mb-4">Mentors</h3>
+         <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
+           {mentors.map(member => (
+             <MemberCard key={member.name} member={member} />
+           ))}
+         </div>
+       </div>
 
-      {/* Core Team */}
-      <div className="mt-12">
-        <h3 className="text-2xl font-semibold text-blue-700 mb-4">Core Team</h3>
-        {/* Changed from lg:grid-cols-3 to md:grid-cols-2 for a 2-column layout */}
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
-          {coreTeam.map(member => (
-            <MemberCard key={member.name} member={member} />
-          ))}
-        </div>
-      </div>
-    </div>
+       {/* Core Team Section */}
+       <div className="mt-12">
+         <h3 className="text-2xl font-semibold text-blue-700 mb-4">Core Team</h3>
+         <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
+           {coreTeam.map(member => (
+             <MemberCard key={member.name} member={member} />
+           ))}
+         </div>
+              </div>
+     </div>
   );
- };
+};
 
- export default Team;
+export default Team;

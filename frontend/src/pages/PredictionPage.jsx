@@ -146,9 +146,9 @@ export default function PredictionPage() {
       (forecastType === "Specific Date" && date));
 
   return (
-    <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex flex-col items-center">
-      <section className="bg-white rounded-xl shadow-lg p-8 md:p-10 w-full max-w-3xl mb-12 border-t-4 border-blue-500 transition-shadow duration-300 hover:shadow-xl">
-        <h2 className="text-2xl font-bold text-center text-blue-800 mb-8">
+    <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex flex-col items-center">
+      <section className="bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-lg p-6 md:p-8 w-full max-w-3xl mb-8 border border-blue-200 transition-shadow duration-300 hover:shadow-xl">
+        <h2 className="text-xl font-bold text-center text-blue-800 mb-6">
           Generate Radiation Forecast
         </h2>
         <form
@@ -156,10 +156,10 @@ export default function PredictionPage() {
             e.preventDefault();
             handlePreview();
           }}
-          className="space-y-6"
+          className="space-y-5"
         >
           {/* Input Fields */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Radiation Type */}
             <div className="flex flex-col">
               <label
@@ -176,11 +176,12 @@ export default function PredictionPage() {
                   setPreviewData(null);
                   setError(null);
                 }}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out bg-white
-                   appearance-none bg-no-repeat bg-right-2 bg-center-y"
+                className="mt-1 block w-full px-3 py-2 border-2 border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white hover:border-gray-300 appearance-none cursor-pointer"
                 style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E")`,
-                  backgroundSize: "1.5em 1.5em",
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236B7280'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E")`,
+                  backgroundSize: "1.25em 1.25em",
+                  backgroundPosition: "right 0.75rem center",
+                  backgroundRepeat: "no-repeat",
                 }}
               >
                 <option value="">-- Select --</option>
@@ -207,11 +208,12 @@ export default function PredictionPage() {
                   setYear(new Date().getFullYear()); // Reset year to current on type change
                   setDate(""); // Clear date on type change
                 }}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out bg-white
-                   appearance-none bg-no-repeat bg-right-2 bg-center-y"
+                className="mt-1 block w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white hover:border-gray-300 appearance-none cursor-pointer"
                 style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E")`,
-                  backgroundSize: "1.5em 1.5em",
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236B7280'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E")`,
+                  backgroundSize: "1.25em 1.25em",
+                  backgroundPosition: "right 0.75rem center",
+                  backgroundRepeat: "no-repeat",
                 }}
               >
                 <option value="">-- Select --</option>
@@ -244,7 +246,7 @@ export default function PredictionPage() {
                     setPreviewData(null);
                     setError(null);
                   }}
-                  className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                  className="mt-1 block w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300"
                 />
               ) : forecastType === "Specific Date" ? (
                 <input
@@ -256,7 +258,7 @@ export default function PredictionPage() {
                     setPreviewData(null);
                     setError(null);
                   }}
-                  className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                  className="mt-1 block w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300 cursor-pointer"
                 />
               ) : (
                 <input
@@ -264,7 +266,7 @@ export default function PredictionPage() {
                   type="text"
                   disabled
                   placeholder="Select forecast type"
-                  className="mt-1 block w-full px-4 py-2 border border-gray-200 rounded-lg shadow-sm bg-gray-100 cursor-not-allowed text-gray-500"
+                  className="mt-1 block w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm bg-gray-50 cursor-not-allowed text-gray-500"
                 />
               )}
             </div>
@@ -348,7 +350,7 @@ export default function PredictionPage() {
 
       {/* Preview Table */}
       {previewData && previewData.length > 0 && (
-        <section className="bg-white rounded-xl shadow-lg p-6 md:p-8 w-full overflow-x-auto border-t-4 border-blue-500">
+        <section className="bg-gradient-to-br from-green-50 to-white rounded-xl shadow-lg p-6 md:p-8 w-full overflow-x-auto border border-green-200">
           <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">
             Forecast Preview
           </h2>
