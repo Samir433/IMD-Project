@@ -50,46 +50,48 @@ const Team = () => {
   const coreTeam = teamMembers.filter(member => !member.isMentor);
 
   const MemberCard = ({ member }) => (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-md p-6 text-center hover:shadow-lg transition-all duration-300 h-full">
+    <div className="backdrop-blur-sm bg-gray-900/40 border border-gray-800/50 rounded-lg p-3 transition-all duration-300 flex items-start gap-3 hover:bg-gray-800/40">
       <img
         src={member.imageUrl}
         alt={member.name}
-        className="w-20 h-20 rounded-full object-cover mx-auto mb-4 ring-2 ring-blue-200"
+        className="w-14 h-14 rounded-full object-cover ring-2 ring-cyan-800/50 flex-shrink-0"
         onError={(e) => { 
           e.target.onerror = null; 
-          e.target.src = "https://placehold.co/100x100/E5E7EB/6B7280?text=" + member.name.split(' ').map(n => n[0]).join('');
+          e.target.src = "https://placehold.co/100x100/1F2937/CBD5E1?text=" + member.name.split(' ').map(n => n[0]).join('');
         }}
       />
-      <h3 className="text-lg font-semibold text-gray-800 mb-1">{member.name}</h3>
-      <p className="text-sm text-blue-600 font-medium mb-3">{member.role}</p>
-      <p className="text-sm text-gray-600 leading-relaxed">{member.description}</p>
+      <div className="flex-1">
+        <h3 className="text-base font-semibold text-white mb-0.5">{member.name}</h3>
+        <p className="text-xs text-cyan-300 font-medium mb-1">{member.role}</p>
+        <p className="text-xs text-gray-400 leading-relaxed">{member.description}</p>
+      </div>
     </div>
   );
 
   return (
-         <div className="p-6 md:p-10">
-       <h2 className="text-3xl font-bold text-center text-blue-800 mb-8">Meet the Team</h2>
+    <div className="p-4">
+      <h2 className="text-2xl font-bold text-center text-cyan-300 mb-6">Meet the Team</h2>
 
-             {/* Mentors Section */}
-       <div>
-         <h3 className="text-2xl font-semibold text-blue-700 mb-4">Mentors</h3>
-         <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
-           {mentors.map(member => (
-             <MemberCard key={member.name} member={member} />
-           ))}
-         </div>
-       </div>
+      {/* Mentors Section */}
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-cyan-200 mb-3 border-b border-gray-800 pb-1">Mentors</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {mentors.map(member => (
+            <MemberCard key={member.name} member={member} />
+          ))}
+        </div>
+      </div>
 
-       {/* Core Team Section */}
-       <div className="mt-12">
-         <h3 className="text-2xl font-semibold text-blue-700 mb-4">Core Team</h3>
-         <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
-           {coreTeam.map(member => (
-             <MemberCard key={member.name} member={member} />
-           ))}
-         </div>
-              </div>
-     </div>
+      {/* Core Team Section */}
+      <div>
+        <h3 className="text-lg font-semibold text-cyan-200 mb-3 border-b border-gray-800 pb-1">Core Team</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {coreTeam.map(member => (
+            <MemberCard key={member.name} member={member} />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 

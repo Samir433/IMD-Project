@@ -11,20 +11,67 @@
   animation: fadeIn 0.5s ease-out forwards;
 }
 
+/* Enhanced glassmorphism effect utilities */
+@layer components {
+  .glass-card {
+    @apply backdrop-blur-xl bg-black/20 border border-gray-700/40 rounded-lg p-4 shadow-glass transition-all duration-300;
+  }
+  
+  .glass-card-hover {
+    @apply hover:bg-black/25 hover:border-gray-600/40 hover:shadow-glass-lg;
+  }
+
+  .glass-button {
+    @apply backdrop-blur-xl bg-cyan-900/30 border border-cyan-800/40 text-cyan-300 px-4 py-2 rounded-md hover:bg-cyan-800/30 transition-all duration-200;
+  }
+
+  .glass-input {
+    @apply bg-gray-800 backdrop-blur-xl border border-gray-700/40 rounded-md px-3 py-2 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-transparent;
+  }
+}
+
+/* Override browser default styles for select, input elements */
+select, input, textarea {
+  @apply text-gray-200 bg-gray-800;
+  color-scheme: dark;
+}
+
+/* Make option elements in dropdowns match our dark theme */
+option {
+  @apply bg-gray-800 text-gray-200;
+}
+
+/* Custom styled select to match glass theme */
+select.glass-select {
+  @apply bg-gray-800 backdrop-blur-xl border border-gray-700/40 rounded-md px-3 py-2 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-transparent;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
 /* Custom scrollbar styles */
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  @apply bg-gray-900;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 3px;
+  @apply bg-gray-700 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+  @apply bg-gray-600;
+}
+
+body {
+  @apply bg-slate-900 text-gray-200;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMjIiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTIwIDJhMTggMTggMCAwIDAtMTggMThoMzZhMTggMTggMCAwIDAtMTggMTh6Ii8+PC9nPjwvc3ZnPg==');
 }

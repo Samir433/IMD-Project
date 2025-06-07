@@ -146,9 +146,9 @@ export default function PredictionPage() {
       (forecastType === "Specific Date" && date));
 
   return (
-    <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex flex-col items-center">
-      <section className="bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-lg p-6 md:p-8 w-full max-w-3xl mb-8 border border-blue-200 transition-shadow duration-300 hover:shadow-xl">
-        <h2 className="text-xl font-bold text-center text-blue-800 mb-6">
+    <main className="p-5 w-full">
+      <section className="backdrop-blur-xl bg-gray-900/20 border border-gray-800/40 rounded-md shadow-lg p-6 w-full mb-6">
+        <h2 className="text-xl font-bold text-center text-cyan-300 mb-6">
           Generate Radiation Forecast
         </h2>
         <form
@@ -159,12 +159,12 @@ export default function PredictionPage() {
           className="space-y-5"
         >
           {/* Input Fields */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {/* Radiation Type */}
             <div className="flex flex-col">
               <label
                 htmlFor="radiationType"
-                className="block text-sm font-semibold text-gray-700 mb-1"
+                className="block text-sm font-semibold text-gray-300 mb-2"
               >
                 Radiation Type:
               </label>
@@ -176,17 +176,11 @@ export default function PredictionPage() {
                   setPreviewData(null);
                   setError(null);
                 }}
-                className="mt-1 block w-full px-3 py-2 border-2 border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white hover:border-gray-300 appearance-none cursor-pointer"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236B7280'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E")`,
-                  backgroundSize: "1.25em 1.25em",
-                  backgroundPosition: "right 0.75rem center",
-                  backgroundRepeat: "no-repeat",
-                }}
+                className="glass-select bg-gray-800 text-gray-200 py-2 px-3"
               >
-                <option value="">-- Select --</option>
-                <option>Global</option>
-                <option>Diffusion</option>
+                <option value="" className="bg-gray-800 text-gray-200">-- Select --</option>
+                <option className="bg-gray-800 text-gray-200">Global</option>
+                <option className="bg-gray-800 text-gray-200">Diffusion</option>
               </select>
             </div>
 
@@ -194,7 +188,7 @@ export default function PredictionPage() {
             <div className="flex flex-col">
               <label
                 htmlFor="forecastType"
-                className="block text-sm font-semibold text-gray-700 mb-1"
+                className="block text-sm font-semibold text-gray-300 mb-2"
               >
                 Forecast Type:
               </label>
@@ -205,179 +199,120 @@ export default function PredictionPage() {
                   setForecastType(e.target.value);
                   setPreviewData(null);
                   setError(null);
-                  setYear(new Date().getFullYear()); // Reset year to current on type change
-                  setDate(""); // Clear date on type change
                 }}
-                className="mt-1 block w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white hover:border-gray-300 appearance-none cursor-pointer"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236B7280'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E")`,
-                  backgroundSize: "1.25em 1.25em",
-                  backgroundPosition: "right 0.75rem center",
-                  backgroundRepeat: "no-repeat",
-                }}
+                className="glass-select bg-gray-800 text-gray-200 py-2 px-3"
               >
-                <option value="">-- Select --</option>
-                <option>Full Year</option>
-                <option>Specific Date</option>
+                <option value="" className="bg-gray-800 text-gray-200">-- Select --</option>
+                <option className="bg-gray-800 text-gray-200">Full Year</option>
+                <option className="bg-gray-800 text-gray-200">Specific Date</option>
               </select>
             </div>
 
-            {/* Year / Date input */}
-            <div className="flex flex-col">
-              <label
-                htmlFor="dateInput"
-                className="block text-sm font-semibold text-gray-700 mb-1"
-              >
-                {forecastType === "Full Year"
-                  ? "Enter Year:"
-                  : forecastType === "Specific Date"
-                  ? "Enter Date:"
-                  : "Year / Date:"}
-              </label>
-              {forecastType === "Full Year" ? (
+            {/* Date Input - conditional rendering */}
+            {forecastType === "Full Year" && (
+              <div className="flex flex-col">
+                <label
+                  htmlFor="yearInput"
+                  className="block text-sm font-semibold text-gray-300 mb-2"
+                >
+                  Year:
+                </label>
                 <input
-                  id="dateInput"
                   type="number"
-                  min="2021"
-                  max="2050" // Adjusted max year to a reasonable future
+                  id="yearInput"
                   value={year}
-                  onChange={(e) => {
-                    setYear(e.target.value);
-                    setPreviewData(null);
-                    setError(null);
-                  }}
-                  className="mt-1 block w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300"
+                  min="2015"
+                  max="2030"
+                  onChange={(e) => setYear(e.target.value)}
+                  className="glass-input bg-gray-800 text-gray-200 py-2 px-3"
                 />
-              ) : forecastType === "Specific Date" ? (
+              </div>
+            )}
+
+            {forecastType === "Specific Date" && (
+              <div className="flex flex-col">
+                <label
+                  htmlFor="dateInput"
+                  className="block text-sm font-semibold text-gray-300 mb-2"
+                >
+                  Date:
+                </label>
                 <input
-                  id="dateInput"
                   type="date"
-                  value={date}
-                  onChange={(e) => {
-                    setDate(e.target.value);
-                    setPreviewData(null);
-                    setError(null);
-                  }}
-                  className="mt-1 block w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300 cursor-pointer"
-                />
-              ) : (
-                <input
                   id="dateInput"
-                  type="text"
-                  disabled
-                  placeholder="Select forecast type"
-                  className="mt-1 block w-full px-4 py-3 border-2 border-gray-200 rounded-xl shadow-sm bg-gray-50 cursor-not-allowed text-gray-500"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="glass-input bg-gray-800 text-gray-200 py-2 px-3"
                 />
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
-          {/* Buttons Row */}
-          <div className="flex flex-wrap gap-4 justify-center pt-4">
+          {/* Buttons */}
+          <div className="flex flex-col md:flex-row justify-center gap-3 mt-6">
             <button
               type="submit"
               disabled={!inputsValid || loading}
-              className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed
-                             text-white px-8 py-3 rounded-full font-bold text-lg shadow-md
-                             transition-colors duration-200 ease-in-out
-                             focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className={`border border-cyan-700/40 text-cyan-300 px-5 py-2 rounded-md font-medium hover:bg-cyan-900/30 transition-all duration-200 ${
+                !inputsValid || loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
-              <span className="flex items-center">
-                <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  ></path>
-                </svg>
-                {loading && !previewData ? "Fetching..." : "Preview Forecast"}
-              </span>
+              {loading ? "Loading..." : "Preview Forecast"}
             </button>
             <button
               type="button"
               onClick={handleDownload}
-              disabled={!inputsValid || loading}
-              className="bg-green-600 hover:bg-green-700 disabled:opacity-60 disabled:cursor-not-allowed
-                             text-white px-8 py-3 rounded-full font-bold text-lg shadow-md
-                             transition-colors duration-200 ease-in-out
-                             focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+              disabled={
+                (!forecastData && !inputsValid) || loading
+              }
+              className={`border border-cyan-700/40 text-cyan-300 px-5 py-2 rounded-md font-medium hover:bg-cyan-900/30 transition-all duration-200 ${
+                (!forecastData && !inputsValid) || loading
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
             >
-              <span className="flex items-center">
-                <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 10v6m0 0l3-3m-3 3l-3-3m2-8H7a2 2 0 00-2 2v8a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-3a2 2 0 00-2 2v0z"
-                  ></path>
-                </svg>
-                Download CSV
-              </span>
+              Download CSV
             </button>
           </div>
 
-          {/* Loader / Error */}
-          {loading && (
-            <p className="mt-6 text-center text-blue-600 font-medium text-lg animate-pulse">
-              <span className="inline-block animate-spin rounded-full h-4 w-4 border-2 border-r-transparent border-blue-500 mr-2"></span>
-              Fetching data, please wait...
-            </p>
-          )}
+          {/* Error Message */}
           {error && (
-            <div
-              className="mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-center"
-              role="alert"
-            >
-              <p className="font-semibold">Error:</p>
-              <p>{error}</p>
+            <div className="bg-red-900/30 border border-red-700/40 text-red-200 p-3 rounded-md text-sm mt-5 backdrop-blur-xl">
+              {error}
             </div>
           )}
         </form>
       </section>
 
-      {/* Preview Table */}
-      {previewData && previewData.length > 0 && (
-        <section className="bg-gradient-to-br from-green-50 to-white rounded-xl shadow-lg p-6 md:p-8 w-full overflow-x-auto border border-green-200">
-          <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">
+      {/* Preview Section */}
+      {previewData && (
+        <section className="backdrop-blur-xl bg-gray-900/20 border border-gray-800/40 rounded-md p-6 w-full">
+          <h3 className="text-lg font-semibold text-cyan-300 mb-5">
             Forecast Preview
-          </h2>
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left text-gray-600">
-              <thead className="text-xs text-gray-700 uppercase bg-blue-50">
+          </h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-700/40">
+              <thead>
                 <tr>
-                  {Object.keys(previewData[0] || {}).map((header) => (
+                  {Object.keys(previewData[0]).map((key) => (
                     <th
-                      scope="col"
-                      key={header}
-                      className="px-6 py-3 text-left font-bold text-blue-800 tracking-wider"
+                      key={key}
+                      className="px-5 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
                     >
-                      {header.replaceAll("_", " ")}
+                      {key}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-gray-700/40">
                 {previewData.map((row, idx) => (
-                  <tr
-                    key={idx}
-                    className="bg-white border-b hover:bg-blue-50 transition-colors duration-150 ease-in-out"
-                  >
+                  <tr key={idx} className="hover:bg-black/10">
                     {Object.values(row).map((val, i) => (
-                      <td key={i} className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        {typeof val === "number" ? val.toFixed(2) : val}
+                      <td
+                        key={i}
+                        className="px-5 py-3 text-sm text-gray-300 whitespace-nowrap"
+                      >
+                        {val}
                       </td>
                     ))}
                   </tr>
@@ -385,15 +320,11 @@ export default function PredictionPage() {
               </tbody>
             </table>
           </div>
-          <p className="mt-6 text-center text-gray-600 italic text-sm">
-            Preview shows top {previewData.length} entries. Download the CSV for the full dataset.
+          <p className="text-gray-400 text-sm mt-5">
+            Showing {previewData.length} records out of{" "}
+            {forecastData?.length || "?"}.
           </p>
         </section>
-      )}
-      {previewData && previewData.length === 0 && !loading && !error && (
-        <div className="mt-8 p-6 bg-yellow-50 border border-yellow-300 text-yellow-800 rounded-lg text-center">
-          <p className="font-semibold">No data available for preview with the selected criteria.</p>
-        </div>
       )}
     </main>
   );
