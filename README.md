@@ -6,7 +6,7 @@ A full-stack web application that predicts solar radiation based on meteorologic
 ---
 
 
-Live Link: https://radiation-prediction-webapp.onrender.com
+Live Link: https://radiation-prediction-webapp.onrender.com/
 ---
 
 ## Table of Contents
