@@ -130,6 +130,7 @@ Ensure you have the following installed on your machine:
 ```graphql
 solar-radiation-prediction/
 │
+├── Model_Development_and Preprocessing               # Model training and data pre-processing files
 ├── backend/                # FastAPI backend source code
 │   ├── main.py             # API routes and app initialization
 │   ├── model_1.pkl            # ML model 
