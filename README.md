@@ -15,7 +15,7 @@ A full-stack web application that predicts solar radiation based on meteorologic
   - [Backend Setup](#backend-setup)
   - [Frontend Setup](#frontend-setup)
 - [Usage](#usage)
-- [Project Structure](#project-structure)
+- [Project Structure](#project-structure) 
 - [Contributing](#contributing)
 - [Contact](#contact)
 
@@ -128,7 +128,8 @@ solar-radiation-prediction/
 │
 ├── backend/                # FastAPI backend source code
 │   ├── main.py             # API routes and app initialization
-│   ├── model.py            # ML model loading and prediction logic
+│   ├── model_1.pkl            # ML model 
+│   ├── model_2.pkl            # ML model 
 │   ├── data_processing.py  # Data cleaning and preprocessing functions
 │   ├── requirements.txt    # Python dependencies
 │   └── ...
@@ -142,9 +143,6 @@ solar-radiation-prediction/
 │   ├── tailwind.config.js  # Tailwind CSS configuration
 │   ├── package.json        # Frontend dependencies and scripts
 │   └── ...
-│
-├── data/                   # Sample historical data files (e.g., CSV)
-├── models/                 # Trained machine learning model files (.pkl or Prophet model files)
 ├── README.md               # This README file
 └── ...
 ```
