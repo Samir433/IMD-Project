@@ -130,7 +130,13 @@ Ensure you have the following installed on your machine:
 ```graphql
 solar-radiation-prediction/
 │
-├── Model_Development_and Preprocessing               # Model training and data pre-processing files
+├── Model_Development_and Preprocessing/               # Model training and data pre-processing files
+│   ├── Globa_data_preprocessing.ipynb        
+│   ├── Linear_Regression_Model.ipynb
+│   ├── Pivot_Script_Dif.ipynb
+│   ├── Pivot_Script_Glob.ipynb
+|
+|
 ├── backend/                # FastAPI backend source code
 │   ├── main.py             # API routes and app initialization
 │   ├── model_1.pkl            # ML model 
@@ -139,6 +145,7 @@ solar-radiation-prediction/
 │   ├── requirements.txt    # Python dependencies
 │   └── ...
 │
+|
 ├── frontend/               # React frontend source code
 │   ├── src/
 │   │   ├── components/     # Reusable React components
@@ -148,7 +155,9 @@ solar-radiation-prediction/
 │   ├── tailwind.config.js  # Tailwind CSS configuration
 │   ├── package.json        # Frontend dependencies and scripts
 │   └── ...
+|
 ├── README.md               # This README file
+|
 └── ...
 ```
 ---
