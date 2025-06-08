@@ -22,7 +22,7 @@ export default function PredictionPage() {
 
     // Determine API endpoint and payload based on forecast type
     if (forecastType === "Full Year") {
-      url = "http://127.0.0.1:8000/predict_year";
+      url = "https://imd-fastapi-backend.onrender.com/predict_year";
       body = {
         year: parseInt(year, 10),
         model_type: radiationType.toLowerCase(),
@@ -39,7 +39,7 @@ export default function PredictionPage() {
         setLoading(false);
         return null;
       }
-      url = "http://127.0.0.1:8000/predict_date";
+      url = "https://imd-fastapi-backend.onrender.com/predict_date";
       body = {
         date,
         model_type: radiationType.toLowerCase(),
