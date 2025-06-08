@@ -1,6 +1,8 @@
 import React from 'react';
 
+// Component: Team section showing mentors and core project members
 const Team = () => {
+  // Define team members data
   const teamMembers = [
     {
       name: 'Dr. Parul Trivedi',
@@ -46,11 +48,14 @@ const Team = () => {
     },
   ];
 
+  // Split team into mentors and core members
   const mentors = teamMembers.filter(member => member.isMentor);
   const coreTeam = teamMembers.filter(member => !member.isMentor);
 
+  // Card Component for rendering each team member
   const MemberCard = ({ member }) => (
     <div className="backdrop-blur-sm bg-gray-900/40 border border-gray-800/50 rounded-lg p-3 transition-all duration-300 flex items-start gap-3 hover:bg-gray-800/40">
+      {/* Member image with fallback to placeholder on error */}
       <img
         src={member.imageUrl}
         alt={member.name}
@@ -60,6 +65,7 @@ const Team = () => {
           e.target.src = "https://placehold.co/100x100/1F2937/CBD5E1?text=" + member.name.split(' ').map(n => n[0]).join('');
         }}
       />
+      {/* Member information */}
       <div className="flex-1">
         <h3 className="text-base font-semibold text-white mb-0.5">{member.name}</h3>
         <p className="text-xs text-cyan-300 font-medium mb-1">{member.role}</p>
@@ -70,9 +76,10 @@ const Team = () => {
 
   return (
     <div className="p-4">
+      {/* Section Heading */}
       <h2 className="text-2xl font-bold text-center text-cyan-300 mb-6">Meet the Team</h2>
 
-      {/* Mentors Section */}
+      {/* Mentors List */}
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-cyan-200 mb-3 border-b border-gray-800 pb-1">Mentors</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -82,7 +89,7 @@ const Team = () => {
         </div>
       </div>
 
-      {/* Core Team Section */}
+      {/* Core Team Members List */}
       <div>
         <h3 className="text-lg font-semibold text-cyan-200 mb-3 border-b border-gray-800 pb-1">Core Team</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

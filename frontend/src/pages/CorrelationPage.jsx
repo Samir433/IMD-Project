@@ -12,9 +12,11 @@ import {
 } from "chart.js";
 import { SimpleLinearRegression } from "ml-regression-simple-linear";
 
+// Register Chart.js components
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, Title);
 
 const Correlation = () => {
+  // State declarations
   const [data, setData] = useState([]);
   const [yearOptions, setYearOptions] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
@@ -23,6 +25,7 @@ const Correlation = () => {
   const [r2Score, setR2Score] = useState(null);
   const [chartData, setChartData] = useState(null);
 
+  // R² score calculation function
   const r2ScoreCalc = (yTrue, yPred) => {
     const mean = yTrue.reduce((a, b) => a + b, 0) / yTrue.length;
     const ssTot = yTrue.reduce((sum, val) => sum + (val - mean) ** 2, 0);
@@ -30,6 +33,7 @@ const Correlation = () => {
     return 1 - ssRes / ssTot;
   };
 
+  // Load CSV data on component mount
   useEffect(() => {
     Papa.parse("/result.csv", {
       header: true,
@@ -37,7 +41,7 @@ const Correlation = () => {
       dynamicTyping: true,
       complete: (results) => {
         const parsed = results.data
-          .filter(row => row.Date)
+          .filter(row => row.Date) // Exclude empty rows
           .map((row) => ({
             ...row,
             Date: new Date(row.Date),
@@ -45,13 +49,16 @@ const Correlation = () => {
           }));
 
         setData(parsed);
+
+        // Extract and sort unique years
         const years = [...new Set(parsed.map((row) => row.Year))].sort();
         setYearOptions(years);
-        setSelectedYear(years[years.length - 1]);
+        setSelectedYear(years[years.length - 1]); // Default to latest year
       },
     });
   }, []);
 
+  // Generate chart data and regression line on filters change
   useEffect(() => {
     if (!data.length || !selectedYear || !yParam) return;
 
@@ -71,17 +78,23 @@ const Correlation = () => {
       return;
     }
 
+    // Extract X and Y values
     const x = filtered.map((d) => d[radKey]);
     const y = filtered.map((d) => d[yParam]);
 
+    // Perform linear regression
     const regression = new SimpleLinearRegression(x, y);
     const yPred = x.map((xi) => regression.predict(xi));
     const r2 = r2ScoreCalc(y, yPred);
     setR2Score(r2.toFixed(4));
 
+    // Scatter points (actual data)
     const scatterPoints = x.map((xi, i) => ({ x: xi, y: y[i] }));
+
+    // Regression line points
     const linePoints = x.map((xi) => ({ x: xi, y: regression.predict(xi) }));
 
+    // Update chart data
     setChartData({
       datasets: [
         {
@@ -103,7 +116,7 @@ const Correlation = () => {
     });
   }, [data, selectedYear, radiationType, yParam]);
 
-  // Chart options
+  // Chart appearance and behavior options
   const chartOptions = {
     scales: {
       x: {
@@ -150,20 +163,13 @@ const Correlation = () => {
         labels: {
           color: '#d1d5db',
           padding: 15,
-          font: {
-            size: 12
-          }
+          font: { size: 12 }
         },
         padding: 20,
       },
     },
     layout: {
-      padding: {
-        top: 15,
-        right: 20,
-        bottom: 15,
-        left: 20
-      }
+      padding: { top: 15, right: 20, bottom: 15, left: 20 }
     },
     maintainAspectRatio: false,
   };
@@ -172,8 +178,10 @@ const Correlation = () => {
     <div className="p-5 w-full">
       <h2 className="text-xl font-bold mb-6 text-cyan-300">Radiation Correlation Analysis</h2>
 
+      {/* Filter Panel */}
       <div className="backdrop-blur-xl bg-gray-900/20 border border-gray-800/40 rounded-md p-6 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* Year Selector */}
           <div>
             <label className="block font-medium text-gray-300 mb-2">Select Year:</label>
             <select
@@ -189,6 +197,7 @@ const Correlation = () => {
             </select>
           </div>
 
+          {/* Radiation Type Selector */}
           <div>
             <label className="block font-medium text-gray-300 mb-2">Radiation Type:</label>
             <select
@@ -201,6 +210,7 @@ const Correlation = () => {
             </select>
           </div>
 
+          {/* Y-axis Parameter Selector */}
           <div>
             <label className="block font-medium text-gray-300 mb-2">Y-axis Parameter:</label>
             <select
@@ -217,6 +227,7 @@ const Correlation = () => {
         </div>
       </div>
 
+      {/* Scatter Plot + R² Display */}
       <div className="backdrop-blur-xl bg-gray-900/20 border border-gray-800/40 rounded-md p-6">
         {chartData ? (
           <>

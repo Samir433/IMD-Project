@@ -5,37 +5,51 @@ import pandas as pd
 import pickle
 from typing import Optional
 
+# Initialize FastAPI application instance
 app = FastAPI()
 
-# ––– Enable CORS for local frontend –––
+# --------------------------------------------------------
+# Middleware Configuration
+# --------------------------------------------------------
+
+# Enable CORS to allow frontend (e.g., React/Streamlit) to communicate with API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],             # Allow all origins (adjust for production)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ––– Load both models at startup –––
+# --------------------------------------------------------
+# Load ML Models on Startup
+# --------------------------------------------------------
+
+# Load global radiation prediction model
 with open("radiation_model.pkl", "rb") as f:
     global_model = pickle.load(f)
 
+# Load diffusion radiation prediction model
 with open("Diff_radiation_model.pkl", "rb") as f:
     diffusion_model = pickle.load(f)
 
+# --------------------------------------------------------
+# Request Body Schemas
+# --------------------------------------------------------
 
-# ––– Request schemas –––
 class YearInput(BaseModel):
     year: int
-    model_type: Optional[str]  # must be "global" or "diffusion"
-
+    model_type: Optional[str]  # Expected values: "global" or "diffusion"
 
 class DateInput(BaseModel):
-    date: str  # format "YYYY-MM-DD"
-    model_type: Optional[str]  # must be "global" or "diffusion"
+    date: str                  # Format: "YYYY-MM-DD"
+    model_type: Optional[str]  # Expected values: "global" or "diffusion"
 
+# --------------------------------------------------------
+# Forecasting Functions — Year-Level
+# --------------------------------------------------------
 
-# ––– Forecast full year for either model –––
+# Predict radiation for every day in a given year using global model
 def forecast_full_year_global(model, input_year: int):
     all_dates = pd.date_range(
         start=pd.Timestamp(f"{input_year}-01-01"),
@@ -44,28 +58,36 @@ def forecast_full_year_global(model, input_year: int):
     )
     df_future = pd.DataFrame({"ds": all_dates})
     forecast_df = model.predict(df_future)
+
+    # Extract relevant forecast columns and format output
     out = forecast_df[["ds", "yhat", "yhat_lower", "yhat_upper"]].copy()
     out.columns = ["Date", "Forecast_Radiation", "Lower_Bound", "Upper_Bound"]
     out["Date"] = out["Date"].dt.strftime("%Y-%m-%d")
     return out.to_dict(orient="records")
 
-
+# Predict radiation for a full year using diffusion model
 def forecast_full_year_diffusion(model, input_year: int):
     dates = pd.date_range(f"{input_year}-01-01", f"{input_year}-12-31", freq="D")
     future_df = pd.DataFrame({"ds": dates})
     forecast = model.predict(future_df)
+
+    # Extract and rename forecast fields
     forecast = forecast[["ds", "yhat", "yhat_lower", "yhat_upper"]]
     forecast.columns = ["Date", "Forecast_Radiation", "Lower_Bound", "Upper_Bound"]
     forecast["Date"] = forecast["Date"].dt.strftime("%Y-%m-%d")
     return forecast.to_dict(orient="records")
 
+# --------------------------------------------------------
+# Forecasting Functions — Single Date
+# --------------------------------------------------------
 
-# ––– Forecast a single date for “Global” –––
+# Predict radiation for a single date using global model
 def forecast_for_date_global(model, date_str: str):
     ds_date = pd.to_datetime(date_str)
     df_future = pd.DataFrame({"ds": [ds_date]})
     forecast_df = model.predict(df_future)
     row = forecast_df.iloc[0]
+
     return {
         "Date": row["ds"].strftime("%Y-%m-%d"),
         "Forecast_Radiation": float(row["yhat"]),
@@ -73,13 +95,13 @@ def forecast_for_date_global(model, date_str: str):
         "Upper_Bound": float(row["yhat_upper"]),
     }
 
-
-# ––– Forecast a single date for “Diffusion” –––
+# Predict radiation for a single date using diffusion model
 def forecast_for_date_diffusion(model, date_str: str):
     ds_date = pd.to_datetime(date_str)
     df_future = pd.DataFrame({"ds": [ds_date]})
     forecast_df = model.predict(df_future)
     row = forecast_df.iloc[0]
+
     return {
         "Date": row["ds"].strftime("%Y-%m-%d"),
         "Forecast_Radiation": float(row["yhat"]),
@@ -87,22 +109,29 @@ def forecast_for_date_diffusion(model, date_str: str):
         "Upper_Bound": float(row["yhat_upper"]),
     }
 
+# --------------------------------------------------------
+# API Endpoints
+# --------------------------------------------------------
 
+# Health check endpoint for verifying API is running
 @app.get("/")
 def root():
     return {"message": "API is working! Use /predict_year or /predict_date endpoints."}
 
-
+# Endpoint for full-year radiation forecast
 @app.post("/predict_year")
 def predict_year(data: YearInput):
     model_type = data.model_type.lower() if data.model_type else ""
+
+    # Dispatch to appropriate model based on type
     if model_type == "global":
         forecasts = forecast_full_year_global(global_model, data.year)
     elif model_type == "diffusion":
         forecasts = forecast_full_year_diffusion(diffusion_model, data.year)
     else:
         raise HTTPException(
-            status_code=400, detail="Invalid model_type. Use 'global' or 'diffusion'."
+            status_code=400,
+            detail="Invalid model_type. Use 'global' or 'diffusion'."
         )
 
     return {
@@ -111,11 +140,12 @@ def predict_year(data: YearInput):
         "daily_forecasts": forecasts,
     }
 
-
+# Endpoint for single-date radiation forecast
 @app.post("/predict_date")
 def predict_date(data: DateInput):
     model_type = data.model_type.lower() if data.model_type else ""
-    # Dispatch to correct single-date function
+
+    # Dispatch to appropriate function based on model type
     if model_type == "global":
         forecast = forecast_for_date_global(global_model, data.date)
     elif model_type == "diffusion":
@@ -123,18 +153,20 @@ def predict_date(data: DateInput):
     else:
         raise HTTPException(
             status_code=400,
-            detail="Invalid model_type for date prediction. Use 'global' or 'diffusion'.",
+            detail="Invalid model_type for date prediction. Use 'global' or 'diffusion'."
         )
 
-    return {"date": data.date, "model_type": model_type, "forecast": forecast}
+    return {
+        "date": data.date,
+        "model_type": model_type,
+        "forecast": forecast
+    }
 
+# --------------------------------------------------------
+# End of File
+# --------------------------------------------------------
 
-
-# # main.py (test version)
-# from fastapi import FastAPI
-
-# app = FastAPI()
-
+# Uncomment for initial testing with FastAPI root
 # @app.get("/")
 # async def read_root():
 #     return {"message": "Hello from FastAPI!"}

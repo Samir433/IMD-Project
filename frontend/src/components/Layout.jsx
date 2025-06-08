@@ -1,11 +1,14 @@
 // src/components/Layout.jsx
+
 import { Outlet, NavLink } from "react-router-dom";
 import { useState } from "react";
 import WeatherWidget from "./WeatherWidget";
 
+// Layout component that wraps the entire application with header, footer, and main content area
 export default function Layout() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to manage mobile menu toggle
 
+  // Navigation menu items
   const navItems = [
     { name: 'Home', path: '/' },
     { name: 'Prediction', path: '/predict' },
@@ -15,10 +18,12 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 text-white flex flex-col">
-      {/* Header */}
+      
+      {/* --------------------- Header --------------------- */}
       <header className="py-4 px-6 sticky top-0 z-50">
         <div className="flex items-center justify-between">
-          {/* Logo and Title */}
+          
+          {/* Logo and Department Title */}
           <div className="flex items-center space-x-3">
             <div className="h-12 w-12 flex items-center justify-center">
               <img 
@@ -37,7 +42,7 @@ export default function Layout() {
             </div>
           </div>
 
-          {/* Desktop Navigation - Centered */}
+          {/* Centered Navigation (Desktop only) */}
           <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2">
             <nav className="flex items-center backdrop-blur-xl bg-black/20 border border-gray-700/40 rounded-full px-2 py-1">
               {navItems.map((item) => (
@@ -58,25 +63,27 @@ export default function Layout() {
             </nav>
           </div>
 
-          {/* Weather Widget */}
+          {/* Weather widget (Desktop only) */}
           <div className="hidden md:block">
             <WeatherWidget />
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu toggle button */}
           <button 
             className="md:hidden text-white p-2 rounded-md backdrop-blur-xl bg-black/20 border border-gray-700/40 focus:outline-none"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
+            {/* Hamburger / Close icon */}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
             </svg>
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* ------------------ Mobile Navigation ------------------ */}
         <div className={`md:hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-          {/* Mobile IMD Title */}
+          
+          {/* Mobile Department Title */}
           <div className="text-center mb-3">
             <h1 className="text-white text-lg font-bold tracking-tight">
               India Meteorological Department
@@ -86,12 +93,13 @@ export default function Layout() {
             </p>
           </div>
           
+          {/* Navigation items and weather widget */}
           <nav className="flex flex-col space-y-2 bg-gray-900/30 backdrop-blur-xl rounded-lg p-3 border border-gray-700/40">
             {navItems.map((item) => (
               <NavLink
                 key={item.name}
                 to={item.path}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={() => setIsMenuOpen(false)} // Close menu on navigation
                 className={({ isActive }) =>
                   `flex items-center px-3 py-2 rounded-md transition-all duration-200 ${
                     isActive
@@ -103,8 +111,8 @@ export default function Layout() {
                 <span className="font-medium text-sm">{item.name}</span>
               </NavLink>
             ))}
-            
-            {/* Mobile Weather Widget */}
+
+            {/* Weather widget (Mobile) */}
             <div className="py-2 px-1 mt-2 border-t border-gray-700/30">
               <WeatherWidget />
             </div>
@@ -112,14 +120,14 @@ export default function Layout() {
         </div>
       </header>
 
-      {/* Main content */}
+      {/* -------------------- Main Content -------------------- */}
       <main className="flex-1 p-4 md:p-6 overflow-y-auto">
         <div className="max-w-7xl mx-auto backdrop-blur-xl bg-gray-900/20 border border-gray-800/40 rounded-xl shadow-2xl p-6 animate-fade-in">
-          <Outlet />
+          <Outlet /> {/* Dynamic child route rendering */}
         </div>
       </main>
 
-      {/* Footer */}
+      {/* --------------------- Footer --------------------- */}
       <footer className="backdrop-blur-xl bg-black/20 border-t border-gray-800/40 py-3 px-6">
         <div className="text-center text-xs text-gray-400">
           <div>
