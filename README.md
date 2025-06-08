@@ -3,6 +3,7 @@
 
 A full-stack web application that predicts solar radiation based on meteorological parameters using machine learning models. Developed under the mentorship of the **India Meteorological Department (IMD)**, this system combines data collection, preprocessing, model training, and real-time prediction delivery through a responsive web interface.
 
+LIVE: https://radiation-prediction-webapp.onrender.com/predict
 ---
 
 ## Table of Contents
