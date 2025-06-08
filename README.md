@@ -17,7 +17,6 @@ A full-stack web application that predicts solar radiation based on meteorologic
 - [Usage](#usage)
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
-- [License](#license)
 - [Contact](#contact)
 
 ---
@@ -172,11 +171,6 @@ We welcome contributions to enhance this project! To contribute, please follow t
 
 ---
 
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
-
----
 
 ## Contact
 
